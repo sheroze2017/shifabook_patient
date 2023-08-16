@@ -86,8 +86,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         getPages: [
           GetPage(name: '/find', page: () => HomePage()),
+          GetPage(name: '/f', page: () => formScreen()),
           GetPage(name: '/', page: () => BookScreen()),
-          GetPage(name: '/signin', page: () => SignIn()),
 
           GetPage(name: '/fi', page: () => PaymentScreen()),
           //  GetPage(

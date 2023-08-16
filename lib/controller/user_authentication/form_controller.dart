@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shifabook/views/login_screen.dart';
 
 import '../../views/home.dart';
+import '../userData/userInfo.dart';
 
 class PatientController extends GetxController {
   var isloading = false.obs;
@@ -67,6 +68,8 @@ class PatientController extends GetxController {
         await prefs.setString('gender', gender.toString());
 
         Get.snackbar('Message', 'User data saved');
+        await UserProfileService().fetchAndStoreProfile();
+
         Get.to(HomePage());
 
         print('Patient profile created successfully.');

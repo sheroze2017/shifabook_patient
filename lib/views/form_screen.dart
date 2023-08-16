@@ -47,16 +47,18 @@ class _formScreenState extends State<formScreen> {
   FocusNode f10 = new FocusNode();
   FocusNode f11 = new FocusNode();
   final patcontroller = Get.put(PatientController());
-  String selectedCity = ''; // Selected city name
+  //String selectedCity = ''; // Selected city name
   int selectedCityId = 0; // Selected city ID
 
-  Map<String, int> cityMap2 = {
-    'karachi': 1,
-    'lahore': 2,
-    'islamabad': 3,
-    'quetta': 4,
-    'peshawar': 5,
-  };
+  String? selectedCity;
+
+  List<String> cities = [
+    'Karachi',
+    'Lahore',
+    'Islamabad',
+    'Quetta',
+    'Peshawar',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -69,15 +71,27 @@ class _formScreenState extends State<formScreen> {
           padding: EdgeInsets.only(top: 0, left: 24, right: 24, bottom: 20),
           child: SingleChildScrollView(
             child: Column(children: [
+              SizedBox(
+                height: 2.h,
+              ),
+              Text("Fill up form to proceed..",
+                  style: GoogleFonts.lato(
+                    letterSpacing: 4,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                  )),
+              SizedBox(
+                height: 1.h,
+              ),
               Container(
                 width: 100.w,
-                height: 20.h,
+                height: 16.h,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Container(
-                    color: Color.fromARGB(255, 229, 224, 224),
+                    color: Color.fromARGB(0, 229, 224, 224),
                     child: Image.asset(
-                      'assets/mainlogo.png',
+                      'assets/doc.png',
                       scale: 2,
                     ),
                   ),
@@ -293,74 +307,103 @@ class _formScreenState extends State<formScreen> {
               SizedBox(
                 height: 2.h,
               ),
+
               Container(
-                height: 6.h,
-                child: TextFormField(
-                  focusNode: f8,
-                  style: GoogleFonts.lato(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
+                  height: 6.h,
+                  width: 80.h,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[350],
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey),
                   ),
-                  onChanged: (value) {
-                    print(value);
-                    print(cityMap2.entries);
-                    if (cityMap2
-                        .containsKey(_locationController.text.toLowerCase())) {
-                      print('find');
-                      print(value);
-                      selectedCityId =
-                          cityMap2[_locationController.text.toLowerCase()]!;
-                      //print('$cityName has a value of $cityValue');
-                    } else {
-                      // print('City not found in the map');
-                    }
-                  },
-                  controller: _locationController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        icon: Icon(Icons.location_on),
-                        onPressed: () async {
-                          //  await controller.getCurrentLocation();
-                          //  _locationController.text =
-                          //      await controller.currentLocation ?? '';
-                          if (cityMap2.containsKey(
-                              _locationController.text.toLowerCase())) {
-                            print('find');
-                            selectedCityId = cityMap2[
-                                _locationController.text.toLowerCase()]!;
-                          }
-                        }),
-                    contentPadding:
-                        EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                      // borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[350],
-                    labelText: 'Location',
-                    hintStyle: GoogleFonts.lato(
-                      color: Colors.black26,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  onFieldSubmitted: (value) {
-                    f8.unfocus();
-                    FocusScope.of(context).requestFocus(f9);
-                  },
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter the location';
-                    } else if (selectedCityId == 0) {
-                      return 'Please enter Valid location';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-              ),
+                  child: DropdownButton<String>(
+                    hint: Text('City', style: TextStyle(color: Colors.black)),
+                    value: selectedCity,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCity = value.toString();
+                        selectedCityId = cities.indexOf(value.toString()) + 1;
+                        print(selectedCityId);
+                      });
+                    },
+                    items: cities.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )),
+
+              // Container(
+              //   height: 6.h,
+              //   child: TextFormField(
+              //     focusNode: f8,
+              //     style: GoogleFonts.lato(
+              //       fontSize: 14,
+              //       fontWeight: FontWeight.w800,
+              //     ),
+              //     onChanged: (value) {
+              //       print(value);
+              //       print(c.entries);
+              //       if (cityMap2
+              //           .containsKey(_locationController.text.toLowerCase())) {
+              //         print('find');
+              //         print(value);
+              //         selectedCityId =
+              //             cityMap2[_locationController.text.toLowerCase()]!;
+              //         //print('$cityName has a value of $cityValue');
+              //       } else {
+              //         // print('City not found in the map');
+              //       }
+              //     },
+              //     controller: _locationController,
+              //     decoration: InputDecoration(
+              //       suffixIcon: IconButton(
+              //           icon: Icon(Icons.location_on),
+              //           onPressed: () async {
+              //             //  await controller.getCurrentLocation();
+              //             //  _locationController.text =
+              //             //      await controller.currentLocation ?? '';
+              //             if (cityMap2.containsKey(
+              //                 _locationController.text.toLowerCase())) {
+              //               print('find');
+              //               selectedCityId = cityMap2[
+              //                   _locationController.text.toLowerCase()]!;
+              //             }
+              //           }),
+              //       contentPadding:
+              //           EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.all(Radius.circular(90.0)),
+              //         // borderSide: BorderSide.none,
+              //       ),
+              //       filled: true,
+              //       fillColor: Colors.grey[350],
+              //       labelText: 'Location',
+              //       hintStyle: GoogleFonts.lato(
+              //         color: Colors.black26,
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.w800,
+              //       ),
+              //     ),
+              //     onFieldSubmitted: (value) {
+              //       f8.unfocus();
+              //       FocusScope.of(context).requestFocus(f9);
+              //     },
+              //     textInputAction: TextInputAction.next,
+              //     validator: (value) {
+              //       if (value!.isEmpty) {
+              //         return 'Please enter the location';
+              //       } else if (selectedCityId == 0) {
+              //         return 'Please enter Valid location';
+              //       } else {
+              //         return null;
+              //       }
+              //     },
+              //   ),
+              // ),
+
               SizedBox(
                 height: 2.h,
               ),
@@ -467,7 +510,7 @@ class _formScreenState extends State<formScreen> {
                   focusNode: f11,
                   decoration: InputDecoration(
                     labelText: 'Allergies',
-                    hintText: 'Select Allergy you have',
+                    hintText: 'Select Allergies you have',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(90.0)),
                     ),

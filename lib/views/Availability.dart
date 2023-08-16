@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:intl/intl.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -14,7 +15,7 @@ class _BookScreenState extends State<BookScreen> {
     {
       "Day": "Monday",
       "times": [
-        {"end_time": "10:00pm", "start_time": "7:00pm"}
+        {"end_time": "10:00pm", "start_time": "7:00am"}
       ],
       "landmark_id": 2
     },
@@ -85,6 +86,7 @@ class _BookScreenState extends State<BookScreen> {
     "St-19, KDA Scheme, Abul Asar Hafeez Jalandhari Rd, Block 15 Gulistan-e-Johar, Karachi, Karachi City, Sindh",
     "Plot SB 16, Block K North Nazimabad Town, Karachi, Karachi City, Sindh"
   ];
+  DateTime? _selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,28 +105,27 @@ class _BookScreenState extends State<BookScreen> {
           SizedBox(
             height: 2.h,
           ),
-          // DatePicker(
-          //   selectionColor: Color(0xffFBB97C),
-          //   height: 12.h,
-          //   daysCount: 14,
-          //   inactiveDates: [
-          //     // DateTime(2023, 8, 21, 17, 59, 25),
-          //     // DateTime(2023, 8, 22, 8, 30, 0),
-          //     // DateTime(2023, 8, 23, 14, 15, 45),
-          //   ],
-          //   DateTime.now(),
-          //   initialSelectedDate: DateTime.now(),
-          //   // selectionColor: Colors.black,
-          //   selectedTextColor: Colors.white,
-          //   onDateChange: (date) {
-          //     // New date selected
-          //     setState(() {
-          //       //  _selectedValue = date;
-          //     });
-          //   },
-          // ),
-          // Divider(),
-
+          DatePicker(
+            selectionColor: Color(0xffFBB97C),
+            height: 12.h,
+            daysCount: 14,
+            inactiveDates: [
+              // DateTime(2023, 8, 21, 17, 59, 25),
+              // DateTime(2023, 8, 22, 8, 30, 0),
+              // DateTime(2023, 8, 23, 14, 15, 45),
+            ],
+            DateTime.now(),
+            initialSelectedDate: DateTime.now(),
+            // selectionColor: Colors.black,
+            selectedTextColor: Colors.white,
+            onDateChange: (date) {
+              // New date selected
+              setState(() {
+                _selectedValue = date;
+              });
+            },
+          ),
+          Divider(),
           Expanded(
             child: ListView.builder(
               itemCount: availability.length,
@@ -156,7 +157,32 @@ class _BookScreenState extends State<BookScreen> {
                   child: ListTile(
                     trailing: InkWell(
                       onTap: () async {
-                        await availability.removeAt(index);
+                        String start_time = times[0]["start_time"];
+                        String timePart =
+                            start_time.substring(0, start_time.length - 2);
+                        String periodPart = start_time
+                            .substring(start_time.length - 2)
+                            .toLowerCase();
+                        int hours = int.parse(timePart.split(':')[0]);
+                        if (periodPart == "pm") {
+                          hours = (hours + 12) % 24;
+                        }
+                        String formatTime = hours.toString().padLeft(2, '0') +
+                            ':' +
+                            timePart.split(':')[1].padLeft(2, '0') +
+                            ':00';
+
+                        print(formatTime);
+                        String finalTime = _selectedValue!.year.toString() +
+                            '-0' +
+                            _selectedValue!.month.toString() +
+                            '-' +
+                            _selectedValue!.day.toString() +
+                            'T' +
+                            formatTime +
+                            '+05:00';
+                        print(finalTime);
+
                         setState(() {
                           // availability = availability;
 
@@ -167,9 +193,21 @@ class _BookScreenState extends State<BookScreen> {
                         });
                         // availbility().updateAvailibility2(availability);
                       },
-                      child: Text(
-                        'Book',
-                        style: TextStyle(color: Color(0xffFBB97C)),
+                      child: Container(
+                        width: 16.w,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Color(0xffFBB97C)),
+                        //color: Color(0xffFBB97C),
+                        height: 5.h,
+                        child: Center(
+                          child: Text(
+                            'Book',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 15.sp),
+                          ),
+                        ),
                       ),
                     ),
                     title: Text('Day: $day'),

@@ -150,7 +150,7 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                           onFieldSubmitted: (value) {
-                            //f2.unfocus();
+                            f2.unfocus();
                             FocusScope.of(context).requestFocus(f3);
                           },
                           textInputAction: TextInputAction.next,
@@ -195,7 +195,7 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                           onFieldSubmitted: (value) {
-                            // f3.unfocus();
+                            f3.unfocus();
                             //  if (_passwordController.text.isEmpty) {
                             FocusScope.of(context).requestFocus(f4);
                             // }
@@ -332,7 +332,7 @@ class _RegisterState extends State<Register> {
                                   height: 8.h,
                                   width: 8.h,
                                   child: ElevatedButton(
-                                      focusNode: f3,
+                                      // focusNode: f6,
                                       onPressed: () async {
                                         //controller.isLoading.value = true;
                                         //  print(controller.userData.value.mobile);

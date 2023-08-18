@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
         child: Scaffold(
-            drawer: const NavigationDrawer1(),
+            drawer: NavigationDrawer1(),
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0.0,

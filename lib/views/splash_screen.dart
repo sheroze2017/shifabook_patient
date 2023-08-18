@@ -20,9 +20,9 @@ class _SplashScreenState extends State<SplashScreen>
 
     String? token = prefs.getString('refresh_Token');
     if (token != null) {
-      Get.to(HomePage(), transition: Transition.circularReveal);
+      Get.offAll(HomePage(), transition: Transition.fade);
     } else {
-      Get.to(SignIn(), transition: Transition.native);
+      Get.offAll(SignIn(), transition: Transition.fade);
     }
   }
 

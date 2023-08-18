@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shifabook/controller/location/locationController.dart';
 import 'package:shifabook/views/widgets/smallfield.dart';
@@ -59,6 +60,10 @@ class _formScreenState extends State<formScreen> {
     'Quetta',
     'Peshawar',
   ];
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '####-##-##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
   @override
   Widget build(BuildContext context) {
@@ -290,13 +295,13 @@ class _formScreenState extends State<formScreen> {
                 },
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter your Date of Birth';
+                    return 'Eenter Date of Birth';
                   } else {
                     final RegExp dateRegex = RegExp(
                         r'^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$');
 
                     if (!dateRegex.hasMatch(value)) {
-                      return 'Please enter a valid date\nin the format YYYY-MM-DD';
+                      return 'Enter a valid date\nin the format YYYY-MM-DD';
                     }
 
                     // Additional validation logic if needed
@@ -566,10 +571,10 @@ class _formScreenState extends State<formScreen> {
                     width: double.infinity,
                     height: 50,
                     child: Obx(() {
-                      if (patcontroller.isloading.value == true) {
-                        return SpinKitFadingCube(
+                      if (patcontroller.isloading.value) {
+                        return SpinKitWave(
                           color: Colors.indigo[900],
-                          size: 10.w,
+                          size: 15.w,
                         );
                       } else {
                         return ElevatedButton(

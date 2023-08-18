@@ -1,4 +1,5 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shifabook/views/home.dart';
 import 'package:shifabook/views/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,10 @@ class _SignInState extends State<SignIn> {
   FocusNode f2 = new FocusNode();
   FocusNode f3 = new FocusNode();
   final controller = Get.put(LoginController());
-
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+92##########',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +105,7 @@ class _SignInState extends State<SignIn> {
                       height: 2.h,
                     ),
                     TextFormField(
+                      inputFormatters: [maskFormatter],
                       focusNode: f1,
                       style: GoogleFonts.lato(
                         fontSize: 18,
@@ -110,7 +115,7 @@ class _SignInState extends State<SignIn> {
                       controller: _emailController,
                       decoration: InputDecoration(
                         labelText: 'Phone No',
-
+                        hintText: '+923000000000',
                         contentPadding:
                             EdgeInsets.only(left: 20, top: 10, bottom: 10),
                         border: const OutlineInputBorder(
@@ -361,8 +366,6 @@ class _SignInState extends State<SignIn> {
   }
 
   void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
+    Get.to(page, transition: Transition.upToDown);
   }
 }

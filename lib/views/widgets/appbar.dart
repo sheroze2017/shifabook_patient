@@ -12,91 +12,104 @@ import 'package:shifabook/views/updateScreen.dart';
 import 'package:shifabook/views/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
 import '../../controller/userData/userInfo.dart';
+import '../../controller/user_authentication/login_controller.dart';
 import '../login_screen.dart';
 
 class NavigationDrawer1 extends StatelessWidget {
-  const NavigationDrawer1({Key? key}) : super(key: key);
+  final lcontroller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
         // color: Color.fromARGB(255, 209, 206, 206),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xffFBB97C), Color(0xffFC9535)],
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xffFBB97C), Color(0xffFC9535)],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24.0, 40, 24, 0),
+                child: Column(
+                  children: [
+                    headerWidget(),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Divider(
+                      thickness: 1,
+                      height: 10,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    // DrawerItem(
+                    //   name: 'People',
+                    //   icon: Icons.people,
+                    //   onPressed: () => onItemPressed(context, index: 0),
+                    // ),
+                    // const SizedBox(
+                    //   height: 30,
+                    // ),
+                    DrawerItem(
+                        name: 'Profile',
+                        icon: Icons.account_box_rounded,
+                        onPressed: () => onItemPressed(context, index: 0)),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // DrawerItem(
+                    //     name: 'Chats',
+                    //     icon: Icons.message_outlined,
+                    //     onPressed: () => onItemPressed(context, index: 2)),
+                    // const SizedBox(
+                    //   height: 30,
+                    // ),
+                    // DrawerItem(
+                    //     name: 'Favourites',
+                    //     icon: Icons.favorite_outline,
+                    //     onPressed: () => onItemPressed(context, index: 3)),
+                    // const SizedBox(
+                    //   height: 30,
+                    // ),
+                    const Divider(
+                      thickness: 1,
+                      height: 10,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    DrawerItem(
+                        name: 'Update',
+                        icon: Icons.settings,
+                        onPressed: () => onItemPressed(context, index: 4)),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    DrawerItem(
+                        name: 'Log out',
+                        icon: Icons.logout,
+                        onPressed: () => onItemPressed(context, index: 5)),
+                  ],
+                ),
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24.0, 40, 24, 0),
-            child: Column(
-              children: [
-                headerWidget(),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Divider(
-                  thickness: 1,
-                  height: 10,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                // DrawerItem(
-                //   name: 'People',
-                //   icon: Icons.people,
-                //   onPressed: () => onItemPressed(context, index: 0),
-                // ),
-                // const SizedBox(
-                //   height: 30,
-                // ),
-                DrawerItem(
-                    name: 'Profile',
-                    icon: Icons.account_box_rounded,
-                    onPressed: () => onItemPressed(context, index: 0)),
-                const SizedBox(
-                  height: 30,
-                ),
-                // DrawerItem(
-                //     name: 'Chats',
-                //     icon: Icons.message_outlined,
-                //     onPressed: () => onItemPressed(context, index: 2)),
-                // const SizedBox(
-                //   height: 30,
-                // ),
-                // DrawerItem(
-                //     name: 'Favourites',
-                //     icon: Icons.favorite_outline,
-                //     onPressed: () => onItemPressed(context, index: 3)),
-                // const SizedBox(
-                //   height: 30,
-                // ),
-                const Divider(
-                  thickness: 1,
-                  height: 10,
-                  color: Colors.grey,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                DrawerItem(
-                    name: 'Setting',
-                    icon: Icons.settings,
-                    onPressed: () => onItemPressed(context, index: 4)),
-                const SizedBox(
-                  height: 30,
-                ),
-                DrawerItem(
-                    name: 'Log out',
-                    icon: Icons.logout,
-                    onPressed: () => onItemPressed(context, index: 5)),
-              ],
-            ),
-          ),
+            Obx(() {
+              if (lcontroller.logoutLoader.value) {
+                return LoadingDialog();
+              } else {
+                return Container();
+              }
+            })
+          ],
         ),
       ),
     );
@@ -127,14 +140,14 @@ class NavigationDrawer1 extends StatelessWidget {
         // Future.delayed(Duration(seconds: 2));
         print('clear data');
       } else {
-        //  Future.delayed(Duration(seconds: 5))
-        //      .then((value) => LoginController().logoutLoader.value = false);
+        Future.delayed(Duration(seconds: 5))
+            .then((value) => lcontroller.logoutLoader.value = false);
       }
     } catch (error) {
       print(error);
       // LoginController().logoutLoader.value = false;
     } finally {
-      //  LoginController().logoutLoader.value = false;
+      lcontroller.logoutLoader.value = false;
     }
   }
 
@@ -158,6 +171,7 @@ class NavigationDrawer1 extends StatelessWidget {
         );
         break;
       case 5:
+        lcontroller.logoutLoader.value = true;
         logout();
     }
   }
@@ -188,6 +202,27 @@ class NavigationDrawer1 extends StatelessWidget {
           ],
         )
       ],
+    );
+  }
+}
+
+class LoadingDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Row(
+        children: [
+          CircularProgressIndicator(
+            color: Color(0xffFBB97C),
+            strokeWidth: 2,
+          ),
+          SizedBox(width: 16),
+          Text(
+            'Logging Out...',
+            style: TextStyle(fontSize: 17.sp),
+          ),
+        ],
+      ),
     );
   }
 }

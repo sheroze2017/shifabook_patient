@@ -13,6 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     Key? key,
     this.hintText,
+  
     required this.focusNode,
     required this.controller,
     required this.labelText,
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatelessWidget {
     return Container(
       height: 6.h,
       child: TextFormField(
+        inputFormatters: [],
         focusNode: focusNode,
         style: GoogleFonts.lato(
           fontSize: 18.sp,

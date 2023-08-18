@@ -28,6 +28,7 @@ class LoginController extends GetxController {
   var expiresIn = ''.obs;
   var refreshExpiresIn = ''.obs;
   var isloading = false.obs;
+  var logoutLoader = false.obs;
   Future<void> login(String mobileno, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

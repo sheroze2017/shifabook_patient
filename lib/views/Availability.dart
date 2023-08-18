@@ -13,34 +13,6 @@ class BookScreen extends StatefulWidget {
 class _BookScreenState extends State<BookScreen> {
   final List<Map<String, dynamic>> availability = [
     {
-      "Day": "Monday",
-      "times": [
-        {"end_time": "10:00pm", "start_time": "7:00am"}
-      ],
-      "landmark_id": 2
-    },
-    {
-      "Day": "Monday",
-      "times": [
-        {"end_time": "10:00pm", "start_time": "6:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
-      "Day": "Tuesday",
-      "times": [
-        {"end_time": "10:00pm", "start_time": "6:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
-      "Day": "Wednesday",
-      "times": [
-        {"end_time": "10:00pm", "start_time": "6:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
       "Day": "Thursday",
       "times": [
         {"end_time": "10:00pm", "start_time": "6:00pm"}
@@ -48,32 +20,18 @@ class _BookScreenState extends State<BookScreen> {
       "landmark_id": 2
     },
     {
-      "Day": "Friday",
-      "times": [
-        {"end_time": "10:00pm", "start_time": "6:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
-      "Day": "Saturday",
-      "times": [
-        {"end_time": "6:00pm", "start_time": "1:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
-      "Day": "Sunday",
-      "times": [
-        {"end_time": "6:00pm", "start_time": "1:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
       "Day": "Wednesday",
       "times": [
-        {"start_time": "0:0", "end_time": "6:0"}
+        {"end_time": "6:0", "start_time": "0:0"}
       ],
       "landmark_id": 1
+    },
+    {
+      "Day": "Monday",
+      "times": [
+        {"end_time": "3:00", "start_time": "20:00"}
+      ],
+      "landmark_id": 2
     }
   ];
   List<String> locations = [
@@ -158,20 +116,20 @@ class _BookScreenState extends State<BookScreen> {
                     trailing: InkWell(
                       onTap: () async {
                         String start_time = times[0]["start_time"];
-                        String timePart =
-                            start_time.substring(0, start_time.length - 2);
-                        String periodPart = start_time
-                            .substring(start_time.length - 2)
-                            .toLowerCase();
-                        int hours = int.parse(timePart.split(':')[0]);
-                        if (periodPart == "pm") {
-                          hours = (hours + 12) % 24;
-                        }
-                        String formatTime = hours.toString().padLeft(2, '0') +
-                            ':' +
-                            timePart.split(':')[1].padLeft(2, '0') +
-                            ':00';
-
+                        // String timePart =
+                        //     start_time.substring(0, start_time.length - 2);
+                        // String periodPart = start_time
+                        //     .substring(start_time.length - 2)
+                        //     .toLowerCase();
+                        // int hours = int.parse(timePart.split(':')[0]);
+                        // if (periodPart == "pm") {
+                        //   hours = (hours + 12) % 24;
+                        // }
+                        // String formatTime = hours.toString().padLeft(2, '0') +
+                        //     ':' +
+                        //     timePart.split(':')[1].padLeft(2, '0') +
+                        //     ':00';
+                        String formatTime = start_time + ":00";
                         print(formatTime);
                         String finalTime = _selectedValue!.year.toString() +
                             '-0' +

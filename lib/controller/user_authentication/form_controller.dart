@@ -55,6 +55,8 @@ class PatientController extends GetxController {
       // final response = await http.post(url, body: body, headers: header);
 
       if (response.statusCode == 200) {
+        isloading.value = true;
+
         print("result success");
         // Success
         await prefs.setString('blood_type', blood);
@@ -70,7 +72,7 @@ class PatientController extends GetxController {
         Get.snackbar('Message', 'User data saved');
         await UserProfileService().fetchAndStoreProfile();
 
-        Get.to(HomePage());
+        Get.offAll(HomePage());
 
         print('Patient profile created successfully.');
       } else {

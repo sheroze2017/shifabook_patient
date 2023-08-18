@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shifabook/controller/user_authentication/signup_controller.dart';
 import 'package:shifabook/views/otp_screen.dart';
@@ -32,6 +33,10 @@ class _RegisterState extends State<Register> {
   FocusNode f4 = new FocusNode();
   FocusNode f5 = new FocusNode();
 
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+92##########',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
   late bool _isSuccess;
 
   @override
@@ -117,7 +122,7 @@ class _RegisterState extends State<Register> {
                           },
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value!.isEmpty) return 'Please enter the Name';
+                            if (value!.isEmpty) return 'Enter the Name';
                             return null;
                           },
                         ),
@@ -157,24 +162,23 @@ class _RegisterState extends State<Register> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter Email';
+                            } else if (!isValidEmail(value!)) {
+                              return 'Enter valid email';
                             }
-                            // else if (!emailValidate(value)) {
-                            //   return 'Please enter correct Email';
-                            // }
-                            // return null;
+                            return null;
                           },
                         ),
                         SizedBox(
                           height: 3.h,
                         ),
                         TextFormField(
+                          inputFormatters: [maskFormatter],
                           focusNode: f3,
                           style: GoogleFonts.lato(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                           ),
-                          //  keyboardType: TextInputType.,
-                          //keyboardType: TextInputType.phone,
+                          keyboardType: TextInputType.phone,
                           controller: _numController,
                           decoration: InputDecoration(
                             contentPadding:
@@ -423,120 +427,12 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  // Widget _signUp() {
-  //   return
-  // }
-
-  showAlertDialog(BuildContext context) {
-    Navigator.pop(context);
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text(
-        "OK",
-        style: GoogleFonts.lato(fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-        FocusScope.of(context).requestFocus(f2);
-      },
+  bool isValidEmail(String email) {
+    // Simple email validation using regular expression
+    final RegExp emailRegex = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
     );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(
-        "Error!",
-        style: GoogleFonts.lato(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      content: Text(
-        "Email already Exists",
-        style: GoogleFonts.lato(),
-      ),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  showLoaderDialog(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      content: new Row(
-        children: [
-          CircularProgressIndicator(),
-          Container(
-              margin: EdgeInsets.only(left: 15), child: Text("Loading...")),
-        ],
-      ),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  // bool emailValidate(String email) {
-  //   if (RegExp(
-  //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-  //       .hasMatch(email)) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
-  void _registerAccount() async {
-    // User user;
-    // UserCredential credential;
-
-    // try {
-    //   credential = await _auth.createUserWithEmailAndPassword(
-    //     email: _emailController.text,
-    //     password: _passwordController.text,
-    //   );
-    // } catch (error) {
-    //   if (error.toString().compareTo(
-    //           '[firebase_auth/email-already-in-use] The email address is already in use by another account.') ==
-    //       0) {
-    //     showAlertDialog(context);
-    //     print(
-    //         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    //     print(user);
-    //   }
-    // }
-    // user = credential.user;
-
-    // if (user != null) {
-    //   if (!user.emailVerified) {
-    //     await user.sendEmailVerification();
-    //   }
-    //   await user.updateProfile(displayName: _displayName.text);
-
-    //   FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-    //     'name': _displayName.text,
-    //     'birthDate': null,
-    //     'email': user.email,
-    //     'phone': null,
-    //     'bio': null,
-    //     'city': null,
-    //   }, SetOptions(merge: true));
-
-    //   Navigator.of(context)
-    //       .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-    // } else {
-    //   _isSuccess = false;
-    // }
+    return emailRegex.hasMatch(email);
   }
 
   void _pushPage(BuildContext context, Widget page) {

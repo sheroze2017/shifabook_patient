@@ -66,11 +66,14 @@ class _FitnessArticlesPageState extends State<FitnessArticlesPage> {
           final headline = article['headline']['main'];
           final snippet = article['snippet'];
           final link = article['web_url'];
-
+          print(link);
           return InkWell(
-            onTap: () => InAppWebViewScreen(url: link),
+            onTap: () {
+              print(link);
+              InAppWebViewScreen(url: link);
+            },
             child: Container(
-              height: 20.h,
+              height: 25.h,
               margin: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
@@ -117,6 +120,10 @@ class InAppWebViewScreen extends StatelessWidget {
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.parse(url)),
+        onWebViewCreated: (controller) {},
+        initialOptions: InAppWebViewGroupOptions(
+          crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true),
+        ),
       ),
     );
   }

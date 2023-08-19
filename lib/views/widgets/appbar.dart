@@ -27,11 +27,15 @@ class NavigationDrawer1 extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xffFBB97C), Color(0xffFC9535)],
+                  colors: [
+                    Color.fromARGB(255, 250, 224, 200),
+                    Color.fromARGB(255, 180, 177, 177),
+                    //  Color.fromARGB(255, 250, 224, 200),
+                  ],
                 ),
               ),
               child: Padding(
@@ -178,7 +182,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
   Widget headerWidget() {
     const url =
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg';
+        'https://www.pngitem.com/pimgs/m/265-2650404_doctor-equipment-clipart-hd-png-download.png';
     return Row(
       children: [
         CircleAvatar(

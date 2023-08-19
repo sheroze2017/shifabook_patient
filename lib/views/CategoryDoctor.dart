@@ -49,14 +49,16 @@ class CategoryDoctor extends StatelessWidget {
                         .doctorUser!.onlineConsultationFee;
                     var onsitefees = doctorController.accountData!.data![index]
                         .doctorUser!.onsiteConsultationFee;
+                    var avail = doctorController.avail[index];
+                    // print(avail);
                     return doctorController.fullName.length != 0
                         ? GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DoctorsInfo(
-                                      doctorname, img, doctor, doctorCat, exp),
+                                  builder: (context) => DoctorsInfo(doctorname,
+                                      img, doctor, doctorCat, exp, avail),
                                 ),
                               );
                             },
@@ -141,14 +143,14 @@ class CategoryDoctor extends StatelessWidget {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 15, vertical: 9),
                                           decoration: BoxDecoration(
                                             color: Color(0xffFBB97C),
                                             borderRadius:
                                                 BorderRadius.circular(13),
                                           ),
-                                          child: Text(
+                                          child: const Text(
                                             "Details",
                                             style: TextStyle(
                                               color: Colors.white,

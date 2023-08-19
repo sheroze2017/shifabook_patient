@@ -8,8 +8,19 @@ import '../../model/doctorCategory.dart';
 class DoctorData extends GetxController {
   var fullName = [].obs;
   var img = [].obs;
-  // var doctorUser = [].obs;
+  var avail = [].obs;
   var doctors = <DoctorUser>[].obs;
+  List<DateTime> inactive = [];
+
+  List<dynamic> availability = [];
+
+  addavail(String avail2) async {
+    inactive.clear();
+    availability.clear();
+    availability = jsonDecode(avail2);
+
+    print(availability);
+  }
 
   addDoctor(DoctorUser doctor) {
     doctors.add(doctor);
@@ -21,11 +32,13 @@ class DoctorData extends GetxController {
     fullName.clear();
     img.clear();
     doctors.clear();
+    avail.clear();
     // doctorUser.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? access_token = await prefs.getString('access_Token');
 
-    final url = Uri.parse('http://3.80.54.173:4005/api/v1/home/category/$id');
+    final url = Uri.parse(
+        'http://3.80.54.173:4005/api/v1/home/category/$id?limit=10&offset=0');
 
     try {
       final response = await http.get(
@@ -35,10 +48,15 @@ class DoctorData extends GetxController {
         },
       );
       if (response.statusCode == 200) {
+        final Map<String, dynamic> parsedData = json.decode(response.body);
+        //  print(parsedData['data'][0]['doctor_availability']['availability']);
         accountData = await DoctorCategory.fromJson(jsonDecode(response.body));
         for (int i = 0; i < accountData!.data!.length; i++) {
           fullName.add(accountData!.data![i].fullName);
           img.add(accountData!.data![i].image);
+          avail.add(jsonEncode(
+                  parsedData['data'][i]['doctor_availability']['availability'])
+              .toString());
           var doctorData = accountData!.data![i];
           var doctor = await DoctorUser(
             affilation: List<String>.from(
@@ -62,18 +80,4 @@ class DoctorData extends GetxController {
       print('Error fetching and storing API data: $error');
     }
   }
-
-  // doctors.assignAll([
-  //   Doctor(
-  //     fullName: "Dr. Taha Shahid",
-  //     doctorUser: DoctorUser(
-  //       affilation: ["Aga Khan Hospital", "EXY Clinic"],
-  //       qualification: ["MBBS", "MD"],
-  //       yearsOfExperience: 4,
-  //       onsiteConsultationFee: 1000,
-  //       onlineConsultationFee: 500,
-  //     ),
-  //   ),
-  //   // Add more doctors here
-  // ]);
 }

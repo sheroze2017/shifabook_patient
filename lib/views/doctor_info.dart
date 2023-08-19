@@ -5,14 +5,20 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shifabook/model/doctorCategory.dart';
 import 'package:shifabook/views/call/index.dart';
 
+import '../controller/doctorData/doctorCategoryController.dart';
+import 'Availability.dart';
+
 class DoctorsInfo extends StatelessWidget {
   final String? doctorname;
   final String? img;
   final DoctorUser? doctor;
   final String? doctorCat;
   final int? exp;
+  final String? avail;
+  DoctorsInfo(this.doctorname, this.img, this.doctor, this.doctorCat, this.exp,
+      this.avail);
 
-  DoctorsInfo(this.doctorname, this.img, this.doctor, this.doctorCat, this.exp);
+  final ddata = Get.put(DoctorData());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,9 +65,9 @@ class DoctorsInfo extends StatelessWidget {
                           doctorCat!,
                           style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                         ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
+                        // SizedBox(
+                        //   height: 1.h,
+                        // ),
                         Text(
                           doctor!.qualification!.join(' '),
                           style: TextStyle(fontSize: 16.sp, color: Colors.grey),
@@ -74,42 +80,48 @@ class DoctorsInfo extends StatelessWidget {
                           style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                         ),
                         SizedBox(
-                          height: 4.h,
+                          height: 2.h,
                         ),
                         Row(
                           children: <Widget>[
-                            ElevatedButton(
-                              onPressed: () {
-                                // Get.to(IndexPage());
-                                // Button pressed action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo[700],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Text(
-                                'Schedule Meeting',
-                                style: TextStyle(fontSize: 8),
-                              ),
-                            ),
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     // Get.to(IndexPage());
+                            //     // Button pressed action
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //     backgroundColor: Colors.indigo[700],
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(10.0),
+                            //     ),
+                            //   ),
+                            //   child: Text(
+                            //     'Schedule Meeting',
+                            //     style: TextStyle(fontSize: 8),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   width: 5.w,
+                            // ),
                             SizedBox(
-                              width: 5.w,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Button pressed action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo[700],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
+                              height: 4.5.h,
+                              width: 40.w,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  ddata.availability.clear();
+                                  await ddata.addavail(avail!);
+                                  Get.to(BookScreen(), arguments: [avail]);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.indigo[700],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                'Book Apointment',
-                                style: TextStyle(fontSize: 8),
+                                child: Text(
+                                  'Book Apointment',
+                                  style: TextStyle(fontSize: 15.sp),
+                                ),
                               ),
                             ),
                             // IconTile(
@@ -309,6 +321,10 @@ class DoctorsInfo extends StatelessWidget {
                               width: 3.w,
                             ),
                             InkWell(
+                              onTap: () async {
+                                ddata.availability.clear();
+                                await ddata.addavail(avail!);
+                              },
                               child: SizedBox(
                                 child: Text(
                                   "List Of Schedule",

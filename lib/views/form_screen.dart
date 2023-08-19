@@ -574,7 +574,7 @@ class _formScreenState extends State<formScreen> {
                       if (patcontroller.isloading.value) {
                         return SpinKitWave(
                           color: Colors.indigo[900],
-                          size: 15.w,
+                          size: 9.w,
                         );
                       } else {
                         return ElevatedButton(

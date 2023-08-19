@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/views/updateScreen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -86,7 +88,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           child: CircleAvatar(
                             radius: 30.sp,
                             backgroundImage: const NetworkImage(
-                              "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg'",
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTECnJmN6N3cN0wlEw1-ky4xQNb1MUEXoucfQ&usqp=CAU",
                             ),
                           ),
                         ),
@@ -223,6 +225,44 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           style: TextStyle(
                                               fontSize: 17.sp,
                                               color: Colors.grey),
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 25.0),
+                                          child: SizedBox(
+                                            width: 40.w,
+                                            height: 5.h,
+                                            child: ElevatedButton(
+                                              // focusNode: f3,
+                                              onPressed: () async {
+                                                Get.to(UpdateScreen(),
+                                                    transition:
+                                                        Transition.downToUp);
+                                              },
+
+                                              style: ElevatedButton.styleFrom(
+                                                foregroundColor: Colors.white,
+                                                backgroundColor:
+                                                    Color(0xffFBB97C),
+                                                elevation: 2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          32.0),
+                                                ),
+                                              ),
+                                              // focusNode: f3,
+                                              child: Text(
+                                                "Update",
+                                                style: GoogleFonts.lato(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     )

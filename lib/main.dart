@@ -108,8 +108,23 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      accessFunc();
+    } else if (state == AppLifecycleState.inactive) {
+      accessFunc();
+    } else if (state == AppLifecycleState.paused) {
+      accessFunc();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
@@ -142,5 +157,46 @@ class MyApp extends StatelessWidget {
         // home: HomePage()
       );
     });
+  }
+}
+
+accessFunc() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  String? refreshToken = prefs.getString('refresh_Token');
+  String? mobile = prefs.getString('mobile');
+  if (refreshToken != null && mobile != null) {
+    final url = Uri.parse('http://3.80.54.173:4005/api/v1/users/token');
+
+    final body = jsonEncode({
+      "email": "{{email}}",
+      "mobile": mobile,
+      "refresh_token": refreshToken
+    });
+
+    final headers = {'Content-Type': 'application/json'};
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        //print(jsonDecode(response.body)['data']['access_token']);
+        // Success
+        print('API hit successful');
+        String accessToken =
+            await jsonDecode(response.body)['data']['access_token'];
+        await prefs.setString('access_Token', accessToken.toString());
+        print(prefs.getString('access_Token'));
+        // await UserProfileService().fetchAndStoreProfile();
+      } else {
+        // Handle error
+        print('Failed to hit the API. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle error
+      print('Error hitting the API: $e');
+    }
+  } else {
+    print('print no data yet');
   }
 }

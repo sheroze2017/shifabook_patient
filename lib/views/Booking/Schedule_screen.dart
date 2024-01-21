@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../controller/doctorData/doctorCategoryController.dart';
+import '../../controller/doctorData/doctorCategoryController.dart';
 
 class ScheduleScreen extends StatelessWidget {
   int weekd = DateTime.now().weekday - 1;

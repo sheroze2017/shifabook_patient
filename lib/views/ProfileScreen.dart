@@ -182,7 +182,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           Text(
                                             'Weight  ',
                                             style: TextStyle(
-                                                fontSize: 18.sp,
+                                                fontSize: 17.sp,
                                                 color: Colors.black),
                                           ),
                                           SizedBox(height: 2.h),
@@ -209,7 +209,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                         Text(
                                           userdata![8],
                                           style: TextStyle(
-                                              fontSize: 18.sp,
+                                              fontSize: 17.sp,
                                               color: Colors.grey),
                                         ),
                                         SizedBox(height: 2.h),
@@ -226,48 +226,44 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                               fontSize: 17.sp,
                                               color: Colors.grey),
                                         ),
-                                        SizedBox(height: 2.h),
-                                        Container(
-                                          padding:
-                                              const EdgeInsets.only(top: 25.0),
-                                          child: SizedBox(
-                                            width: 40.w,
-                                            height: 5.h,
-                                            child: ElevatedButton(
-                                              // focusNode: f3,
-                                              onPressed: () async {
-                                                Get.to(UpdateScreen(),
-                                                    transition:
-                                                        Transition.downToUp);
-                                              },
-
-                                              style: ElevatedButton.styleFrom(
-                                                foregroundColor: Colors.white,
-                                                backgroundColor:
-                                                    Color(0xffFBB97C),
-                                                elevation: 2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          32.0),
-                                                ),
-                                              ),
-                                              // focusNode: f3,
-                                              child: Text(
-                                                "Update",
-                                                style: GoogleFonts.lato(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     )
                                   ])
                             ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        Center(
+                          child: SizedBox(
+                            width: 40.w,
+                            height: 5.h,
+                            child: ElevatedButton(
+                              // focusNode: f3,
+                              onPressed: () async {
+                                Get.to(UpdateScreen(),
+                                    transition: Transition.downToUp);
+                              },
+
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Color(0xffFBB97C),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(32.0),
+                                ),
+                              ),
+                              // focusNode: f3,
+                              child: Text(
+                                "Update",
+                                style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],

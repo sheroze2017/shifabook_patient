@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -70,7 +69,7 @@ class _FitnessArticlesPageState extends State<FitnessArticlesPage> {
           return InkWell(
             onTap: () {
               print(link);
-              InAppWebViewScreen(url: link);
+              //  InAppWebViewScreen(url: link);
             },
             child: Container(
               height: 25.h,
@@ -102,28 +101,6 @@ class _FitnessArticlesPageState extends State<FitnessArticlesPage> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class InAppWebViewScreen extends StatelessWidget {
-  final String url;
-
-  InAppWebViewScreen({required this.url});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Web Page'),
-      ),
-      body: InAppWebView(
-        initialUrlRequest: URLRequest(url: Uri.parse(url)),
-        onWebViewCreated: (controller) {},
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true),
-        ),
       ),
     );
   }

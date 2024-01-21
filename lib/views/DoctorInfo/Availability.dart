@@ -1,45 +1,24 @@
-import 'dart:js_interop';
-
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 
-import '../controller/doctorData/doctorCategoryController.dart';
+import '../../controller/Booking/createBooking.dart';
+import '../../controller/doctorData/doctorCategoryController.dart';
 
 class BookScreen extends StatefulWidget {
-  const BookScreen({super.key});
-
+  final int? id;
+  final int? onsitefees;
+  BookScreen(this.id, this.onsitefees);
   @override
   State<BookScreen> createState() => _BookScreenState();
 }
 
 class _BookScreenState extends State<BookScreen> {
   int weekd = DateTime.now().weekday - 1;
-  final List<Map<String, dynamic>> availability = [
-    {
-      "Day": "Thursday",
-      "times": [
-        {"end_time": "10:00pm", "start_time": "6:00pm"}
-      ],
-      "landmark_id": 2
-    },
-    {
-      "Day": "Wednesday",
-      "times": [
-        {"end_time": "6:0", "start_time": "0:0"}
-      ],
-      "landmark_id": 1
-    },
-    {
-      "Day": "Monday",
-      "times": [
-        {"end_time": "3:00", "start_time": "20:00"}
-      ],
-      "landmark_id": 2
-    }
-  ];
+
   List<String> locations = [
     'Dow University Ojha Campus',
     'Darul Sehat',
@@ -61,7 +40,7 @@ class _BookScreenState extends State<BookScreen> {
   ];
   DateTime? _selectedValue;
   final ddata = Get.put(DoctorData());
-
+  final bookingController = Get.put(Createbooking());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,40 +113,54 @@ class _BookScreenState extends State<BookScreen> {
                       trailing: InkWell(
                         onTap: () async {
                           String start_time = times[0]["start_time"];
-                          // String timePart =
-                          //     start_time.substring(0, start_time.length - 2);
-                          // String periodPart = start_time
-                          //     .substring(start_time.length - 2)
-                          //     .toLowerCase();
-                          // int hours = int.parse(timePart.split(':')[0]);
-                          // if (periodPart == "pm") {
-                          //   hours = (hours + 12) % 24;
-                          // }
-                          // String formatTime = hours.toString().padLeft(2, '0') +
-                          //     ':' +
-                          //     timePart.split(':')[1].padLeft(2, '0') +
-                          //     ':00';
-                          String formatTime = start_time + ":00";
+                          String formatTime =
+                              "${start_time.length == 4 ? '0' : ''}$start_time:00";
                           print(formatTime);
-                          String finalTime = _selectedValue!.year.toString() +
-                              '-0' +
-                              _selectedValue!.month.toString() +
-                              '-' +
-                              _selectedValue!.day.toString() +
-                              'T' +
-                              formatTime +
-                              '+05:00';
+
+                          String finalTime =
+                              '${_selectedValue!.year}${_selectedValue!.month.toString().length == 1 ? '-0' : '-'}${_selectedValue!.month}${_selectedValue!.day.toString().length == 1 ? '-0' : '-'}${_selectedValue!.day}T$formatTime+05:00';
                           print(finalTime);
+                          // setState(() {});
+                          bool confirmBooking = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              //  setState(() {});
+                              return AlertDialog(
+                                title: Text('Confirm Booking'),
+                                content: Text('Do you want to book this slot?'),
+                                actions: [
+                                  TextButton(onPressed: () async {
+                                    await bookingController.createBook(
+                                        finalTime,
+                                        widget.id!,
+                                        landmarkId,
+                                        widget.onsitefees!);
 
-                          setState(() {
-                            // availability = availability;
-
-                            // SharedPreferences prefs =
-                            //     await SharedPreferences.getInstance();
-                            // (prefs.setString('DoctorAvailability',
-                            //     jsonEncode(availability)));
-                          });
-                          // availbility().updateAvailibility2(availability);
+                                    Navigator.pop(
+                                        context, true); // Confirm the booking
+                                  }, child: Obx(
+                                    () {
+                                      if (bookingController.isloading.value) {
+                                        return SpinKitWave(
+                                          color: Colors.blue,
+                                          size: 6.w,
+                                        );
+                                      } else {
+                                        return Text('Confirm');
+                                      }
+                                    },
+                                  )),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context, false); // Cancel the booking
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         child: Container(
                           width: 16.w,

@@ -6,14 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shifabook/controller/userData/userInfo.dart';
 import 'package:shifabook/data/data.dart';
 import 'package:shifabook/model/speciality.dart';
-import 'package:shifabook/views/doctor_info.dart';
+import 'package:shifabook/views/DoctorInfo/doctor_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shifabook/views/news_Screen.dart';
 import 'package:shifabook/views/widgets/appbar.dart';
 
 import '../controller/doctorData/doctorCategoryController.dart';
-import 'CategoryDoctor.dart';
+import '../model/doctorCategory.dart';
+import 'DoctorInfo/CategoryDoctor.dart';
 
 String selectedCategorie = "Adults";
 
@@ -63,46 +64,79 @@ class _HomePageState extends State<HomePage> {
     //  bloodType = prefs.getString('blood_type') ?? '';
     setState(() {
       userdata = prefs.getStringList('userData')!;
-      // userallergies = prefs.getStringList('userAllergies')!;
-      // userdisease = prefs.getStringList('userDisease')!;
-      // bloodType = prefs.getString('blood_type') ?? '';
-      // // allergies = prefs.getString('allergies')?.split(',') ?? [];
-      // diseases = prefs.getString('disease')?.split(',') ?? [];
-      // weight = prefs.getString('weight') ?? '';
-      // visitingHistory = prefs.getString('visitinghistory') ?? '';
-      // fullName = prefs.getString('fullname') ?? '';
-      // userId = prefs.getString('userId') ?? '';
-      // email = prefs.getString('email') ?? '';
-      // mobile = prefs.getString('mobile') ?? '';
-      // isActive = prefs.getString('isActive') ?? '';
-      // isVerify = prefs.getString('isVerify') ?? '';
-      // createdAt = prefs.getString('createdAt') ?? '';
-      // updatedAt = prefs.getString('updatedAt') ?? '';
-      // roleName = prefs.getString('roleName') ?? '';
-      // roleId = prefs.getString('roleId') ?? '';
-      // accessToken = prefs.getString('access_Token') ?? '';
-      // refreshToken = prefs.getString('refresh_Token') ?? '';
     });
-    //});
-    //String bloodType = prefs.getString('blood_type') ?? '';
-
-    // Use the retrieved data as needed
   }
 
   List<String> categories = ["Adults", "Childrens", "Womens", "Mens"];
-
   late List<SpecialityModel> specialities;
   List<String> imageList = [
     'https://merriam-webster.com/assets/mw/images/article/art-wap-article-main/alt-5d4c7e7746fb1-6705-68b432d17a9a6f2e77528cfff3a63a82@1x.jpg',
     'https://merriam-webster.com/assets/mw/images/article/art-wap-article-main/alt-5d4c7e7746fb1-6705-68b432d17a9a6f2e77528cfff3a63a82@1x.jpg',
     'https://merriam-webster.com/assets/mw/images/article/art-wap-article-main/alt-5d4c7e7746fb1-6705-68b432d17a9a6f2e77528cfff3a63a82@1x.jpg',
   ];
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
 
-  // }
+  final List<Map<String, dynamic>> doctorStatic = [
+    {
+      "full_name": "testDoctor11",
+      "image": null,
+      "doctor_user": {
+        "id": 3,
+        "affilation": ["Aga khan Hospital", "ABD"],
+        "qualification": ["MBBS", "MBA"],
+        "years_of_experience": 9,
+        "onsite_consultation_fee": 1000,
+        "online_consultation_fee": 500
+      },
+      "doctor_availability": {
+        "availability": [
+          {
+            "Day": "Thursday",
+            "times": [
+              {"end_time": "10:00", "start_time": "7:00"}
+            ],
+            "landmark_id": 3
+          },
+          {
+            "Day": "Friday",
+            "times": [
+              {"end_time": "10:00", "start_time": "7:00"}
+            ],
+            "landmark_id": 3
+          }
+        ]
+      }
+    },
+    {
+      "full_name": "Dr Hussain ",
+      "image": null,
+      "doctor_user": {
+        "id": 7,
+        "affilation": ["Imam clinic"],
+        "qualification": ["Developer", "stackweaver"],
+        "years_of_experience": 3,
+        "onsite_consultation_fee": 1000,
+        "online_consultation_fee": 2000
+      },
+      "doctor_availability": {
+        "availability": [
+          {
+            "Day": "Wednesday",
+            "times": [
+              {"end_time": "14:00", "start_time": "8:00"}
+            ],
+            "landmark_id": 1
+          },
+          {
+            "Day": "Thursday",
+            "times": [
+              {"end_time": "14:00", "start_time": "8:00"}
+            ],
+            "landmark_id": 1
+          }
+        ]
+      }
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +180,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            // drawer: Drawer(child: Container() // Populate the Drawer in the next step.
-            //     ),
             body: checkdata
                 ? Center(
                     child: SpinKitFadingCube(
@@ -234,20 +266,19 @@ class _HomePageState extends State<HomePage> {
                                             Icons.notifications,
                                             size: 20.0,
                                           ),
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          Icon(
-                                            Icons.calendar_today,
-                                            size: 20.0,
-                                          ),
+                                          // SizedBox(
+                                          //   width: 10.w,
+                                          // ),
+                                          // Icon(
+                                          //   Icons.calendar_today,
+                                          //   size: 20.0,
+                                          // ),
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-
                               Divider(),
                               Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
@@ -262,24 +293,6 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 height: 1.h,
                               ),
-                              // Container(
-                              //   height: 4.h,
-                              //   child: ListView.builder(
-                              //       itemCount: categories.length,
-                              //       shrinkWrap: true,
-                              //       physics: ClampingScrollPhysics(),
-                              //       scrollDirection: Axis.horizontal,
-                              //       itemBuilder: (context, index) {
-                              //         return CategorieTile(
-                              //           categorie: categories[index],
-                              //           isSelected: selectedCategorie == categories[index],
-                              //           context: this,
-                              //         );
-                              //       }),
-                              // ),
-                              // SizedBox(
-                              //   height: 2.h,
-                              // ),
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(12, 2, 12, 2),
@@ -335,12 +348,171 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               SizedBox(
-                                height: 2.h,
+                                height: 1.h,
                               ),
-                              // DoctorsTile(),
-                              // DoctorsTile(),
-                              // DoctorsTile(),
-                              // DoctorsTile(),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(12, 2, 12, 2),
+                                child: SizedBox(
+                                  child: ListView.builder(
+                                    itemCount: doctorStatic.length,
+                                    shrinkWrap: true,
+                                    physics: ClampingScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder: (context, index) {
+                                      final doctorname =
+                                          doctorStatic[index]['full_name'];
+                                      //   final img =do [index];
+                                      // var doctor =
+                                      //     doctorController.doctors[index];
+                                      var exp = doctorStatic[index]
+                                              ['doctor_user']
+                                          ['years_of_experience'];
+                                      var onlinefees = doctorStatic[index]
+                                              ['doctor_user']
+                                          ['online_consultation_fee'];
+                                      var onsitefees = doctorStatic[index]
+                                              ['doctor_user']
+                                          ['onsite_consultation_fee'];
+                                      List<String> qual = doctorStatic[index]
+                                          ['doctor_user']['qualification'];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => DoctorsInfo(doctorname,
+                                          //         img, doctor, doctorCat, exp, avail),
+                                          //   ),
+                                          // );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10.0, right: 10, bottom: 6),
+                                          child: Container(
+                                            height: 20.h,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xffFFEEE0),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 14, vertical: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Image.asset(
+                                                  "assets/doctor_pic.png",
+                                                  height: 8.h,
+                                                ),
+                                                SizedBox(width: 3.w),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      doctorname,
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xffFC9535),
+                                                        fontSize: 18.sp,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 0.5.h,
+                                                    ),
+                                                    Text(
+                                                      'General Physician',
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 0.5.h,
+                                                    ),
+                                                    Text(
+                                                      qual.join(' '),
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 0.5.h,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 1.h,
+                                                    ),
+                                                    Spacer(),
+                                                    Text(
+                                                      'Fees ${onlinefees}-${onsitefees}',
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 1.h,
+                                                    ),
+                                                    Text(
+                                                      'Experience ' +
+                                                          exp.toString() +
+                                                          ' Years',
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp),
+                                                    ),
+                                                    // Text(
+                                                    //   'Fees ${onlinefees}-${onsitefees}',
+                                                    //   style: TextStyle(fontSize: 16.sp),
+                                                    // )
+                                                  ],
+                                                ),
+                                                Spacer(),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 15,
+                                                          vertical: 9),
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffFBB97C),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(13),
+                                                      ),
+                                                      child: const Text(
+                                                        "Details",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    //  Spacer(),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+
+                                // DoctorsTile(),
+                                // DoctorsTile(),
+                                // DoctorsTile(),
+                                // DoctorsTile(),
+                              )
                             ],
                           ),
                         ),

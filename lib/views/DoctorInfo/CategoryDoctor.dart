@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../controller/doctorData/doctorCategoryController.dart';
-import '../model/doctorCategory.dart';
+import '../../controller/doctorData/doctorCategoryController.dart';
+import '../../model/doctorCategory.dart';
 import 'doctor_info.dart';
 
 class CategoryDoctor extends StatelessWidget {
@@ -50,6 +50,9 @@ class CategoryDoctor extends StatelessWidget {
                     var onsitefees = doctorController.accountData!.data![index]
                         .doctorUser!.onsiteConsultationFee;
                     var avail = doctorController.avail[index];
+                    var doctorId = doctorController
+                        .accountData!.data![index].doctorUser!.id;
+
                     // print(avail);
                     return doctorController.fullName.length != 0
                         ? GestureDetector(
@@ -57,8 +60,14 @@ class CategoryDoctor extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DoctorsInfo(doctorname,
-                                      img, doctor, doctorCat, exp, avail),
+                                  builder: (context) => DoctorsInfo(
+                                      doctorname,
+                                      img,
+                                      doctor,
+                                      doctorCat,
+                                      exp,
+                                      avail,
+                                      doctorId),
                                 ),
                               );
                             },

@@ -13,6 +13,7 @@ import 'package:shifabook/views/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
 import '../../controller/userData/userInfo.dart';
 import '../../controller/user_authentication/login_controller.dart';
+import '../Booking/bookingLog.dart';
 import '../login_screen.dart';
 
 class NavigationDrawer1 extends StatelessWidget {
@@ -70,13 +71,6 @@ class NavigationDrawer1 extends StatelessWidget {
                       height: 30,
                     ),
                     // DrawerItem(
-                    //     name: 'Chats',
-                    //     icon: Icons.message_outlined,
-                    //     onPressed: () => onItemPressed(context, index: 2)),
-                    // const SizedBox(
-                    //   height: 30,
-                    // ),
-                    // DrawerItem(
                     //     name: 'Favourites',
                     //     icon: Icons.favorite_outline,
                     //     onPressed: () => onItemPressed(context, index: 3)),
@@ -98,6 +92,17 @@ class NavigationDrawer1 extends StatelessWidget {
                     const SizedBox(
                       height: 30,
                     ),
+                    DrawerItem(
+                        name: 'Booking Details',
+                        icon: Icons.payment_outlined,
+                        onPressed: () => onItemPressed(context, index: 1)),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+
                     DrawerItem(
                         name: 'Log out',
                         icon: Icons.logout,
@@ -139,7 +144,7 @@ class NavigationDrawer1 extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
-        prefs.clear();
+        await prefs.clear();
         Get.offAll(SignIn(), transition: Transition.fade);
         // Future.delayed(Duration(seconds: 2));
         print('clear data');
@@ -165,8 +170,14 @@ class NavigationDrawer1 extends StatelessWidget {
           transition: Transition.native, // Use native transition
           duration: Duration(milliseconds: 300),
         );
-
         break;
+
+      case 1:
+        Get.to(BookingLogs(),
+            transition: Transition.native, // Use native transition
+            duration: Duration(milliseconds: 300));
+        break;
+
       case 4:
         Get.to(
           UpdateScreen(),

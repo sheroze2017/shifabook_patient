@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "445734744510",
+    "project_id": "shifabook-4ebe0",
+    "storage_bucket": "shifabook-4ebe0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445734744510:android:b17fe0e32be13b3ade49ef",
+        "android_client_info": {
+          "package_name": "com.example.shifabook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrq33RvRmwFEPZ5uBWH6pjrwmvOWYiiqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

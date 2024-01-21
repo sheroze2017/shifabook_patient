@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shifabook/model/doctorCategory.dart';
+import 'package:shifabook/views/DoctorInfo/scheduleList.dart';
 import 'package:shifabook/views/call/index.dart';
 
-import '../controller/doctorData/doctorCategoryController.dart';
+import '../../controller/doctorData/doctorCategoryController.dart';
 import 'Availability.dart';
 
 class DoctorsInfo extends StatelessWidget {
@@ -15,8 +16,9 @@ class DoctorsInfo extends StatelessWidget {
   final String? doctorCat;
   final int? exp;
   final String? avail;
+  final int? id;
   DoctorsInfo(this.doctorname, this.img, this.doctor, this.doctorCat, this.exp,
-      this.avail);
+      this.avail, this.id);
 
   final ddata = Get.put(DoctorData());
   @override
@@ -110,7 +112,13 @@ class DoctorsInfo extends StatelessWidget {
                                 onPressed: () async {
                                   ddata.availability.clear();
                                   await ddata.addavail(avail!);
-                                  Get.to(BookScreen(), arguments: [avail]);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BookScreen(
+                                          id, doctor!.onsiteConsultationFee),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.indigo[700],
@@ -302,38 +310,41 @@ class DoctorsInfo extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: Container(
-                        height: 20.h,
-                        width: 18.h,
-                        decoration: BoxDecoration(
-                            color: Color(0xffFBB97C),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                                padding: const EdgeInsets.only(left: 8, top: 8),
-                                decoration: BoxDecoration(
-                                    color: Color(0xffFCCA9B),
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Image.asset("assets/list.png")),
-                            SizedBox(
-                              width: 3.w,
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                ddata.availability.clear();
-                                await ddata.addavail(avail!);
-                              },
-                              child: SizedBox(
+                      child: InkWell(
+                        onTap: () async {
+                          ddata.availability.clear();
+                          await ddata.addavail(avail!);
+                          Get.to(OpeningHoursList(),
+                              transition: Transition.native);
+                        },
+                        child: Container(
+                          height: 20.h,
+                          width: 18.h,
+                          decoration: BoxDecoration(
+                              color: Color(0xffFBB97C),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  padding:
+                                      const EdgeInsets.only(left: 8, top: 8),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffFCCA9B),
+                                      borderRadius: BorderRadius.circular(16)),
+                                  child: Image.asset("assets/list.png")),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              SizedBox(
                                 child: Text(
                                   "List Of Schedule",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 16.sp),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -360,10 +371,10 @@ class DoctorsInfo extends StatelessWidget {
                               width: 3.w,
                             ),
                             Text(
-                              "Doctor's Daily Post",
+                              "Doctor's Daily Post\n Coming Soon",
                               style: TextStyle(
                                   color: Colors.white, fontSize: 16.sp),
-                            )
+                            ),
                           ],
                         ),
                       ),

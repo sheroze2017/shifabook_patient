@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shifabook/views/Booking/bookingLog.dart';
 import 'package:shifabook/views/form_screen.dart';
 import 'package:shifabook/views/home.dart';
 import 'package:shifabook/views/login_screen.dart';
@@ -14,9 +15,9 @@ import 'package:shifabook/views/news_Screen.dart';
 import 'package:shifabook/views/splash_screen.dart';
 
 import 'controller/userData/userInfo.dart';
-import 'views/Availability.dart';
+import 'views/DoctorInfo/Availability.dart';
 import 'views/otp_screen.dart';
-import 'views/payment_Screen.dart';
+import 'views/Booking/payment_Screen.dart';
 import 'views/testmangtas.dart';
 
 Future<void> main() async {
@@ -139,7 +140,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           GetPage(name: '/find', page: () => HomePage()),
           GetPage(name: '/f', page: () => formScreen()),
           GetPage(name: '/', page: () => SplashScreen()),
-
+          GetPage(name: '/details', page: () => BookingLogs()),
           GetPage(name: '/fi', page: () => PaymentScreen()),
           //  GetPage(
           // name: '/details',

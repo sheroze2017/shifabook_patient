@@ -8,6 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shifabook/views/widgets/smallfield.dart';
 import 'package:shifabook/views/widgets/textfield.dart';
+import 'package:shifabook/Global.dart';
 
 import '../controller/user_authentication/form_controller.dart';
 import '../controller/user_authentication/update_controller.dart';
@@ -388,7 +389,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xffFBB97C),
+                            backgroundColor: primaryColor,
                             elevation: 2,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(32.0),

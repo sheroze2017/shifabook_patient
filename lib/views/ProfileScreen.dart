@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/Global.dart';
 import 'package:shifabook/views/updateScreen.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -248,7 +249,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
-                                backgroundColor: Color(0xffFBB97C),
+                                backgroundColor: primaryColor,
                                 elevation: 2,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(32.0),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/Global.dart';
 import 'package:shifabook/views/home.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -37,8 +38,7 @@ class MyWidget extends StatelessWidget {
                 onPageStarted: (String url) {},
                 onPageFinished: (String url) {},
                 onUrlChange: (change) async {
-                  if (change.url ==
-                      'http://3.80.54.173:4005/api/v1/bookings/post-payment-file') {
+                  if (change.url == '$baseUrl/bookings/post-payment-file') {
                     print('finally found it');
 
                     bool paymentSuccess =
@@ -59,7 +59,7 @@ class MyWidget extends StatelessWidget {
 
                   // if (change ==
                   //     Uri.parse(
-                  //         'http://3.80.54.173:4005/api/v1/bookings/post-payment-file')) {
+                  //         '$baseUrlbookings/post-payment-file')) {
                   //   print('finally found url');
                   // }
                 },
@@ -82,8 +82,7 @@ Future<bool> makepayment(String internal) async {
     bool val = false;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accesstoken = await prefs.getString('access_Token');
-    String url =
-        'http://3.80.54.173:4005/api/v1/bookings/get-payment/$internal';
+    String url = '$baseUrl/bookings/get-payment/$internal';
     final response = await http.get(
       Uri.parse(url),
       headers: {

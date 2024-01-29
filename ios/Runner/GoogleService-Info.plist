@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBlz2ko5wOtGDPNmSePmyd8EXr3kpImmrs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>445734744510</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.shifabook</string>
+	<key>PROJECT_ID</key>
+	<string>shifabook-4ebe0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>shifabook-4ebe0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:445734744510:ios:ce77d4885c5ef6b5de49ef</string>
+</dict>
+</plist>

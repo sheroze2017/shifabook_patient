@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shifabook/model/userProfile.dart';
 import 'package:shifabook/views/ProfileScreen.dart';
+import 'package:shifabook/Global.dart';
 
 import 'package:shifabook/views/home.dart';
 import 'package:shifabook/views/updateScreen.dart';
@@ -99,9 +100,6 @@ class NavigationDrawer1 extends StatelessWidget {
                     const SizedBox(
                       height: 30,
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
 
                     DrawerItem(
                         name: 'Log out',
@@ -133,7 +131,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     final body = {"refresh_token": refreshtoken.toString()};
     try {
-      var url = Uri.parse('http://3.80.54.173:4005/api/v1/users/logout');
+      var url = Uri.parse('$baseUrl/users/logout');
       var response = await http.post(
         url,
         headers: {
@@ -197,18 +195,18 @@ class NavigationDrawer1 extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          radius: 30.sp,
+          radius: 20.sp,
           backgroundImage: NetworkImage(url),
         ),
         SizedBox(
-          width: 20,
+          width: 25,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Shifabook',
                 style: TextStyle(
-                    fontSize: 20.sp, color: Colors.white, letterSpacing: 3)),
+                    fontSize: 16.sp, color: Colors.white, letterSpacing: 3)),
             // SizedBox(
             //   height: 10,
             // ),
@@ -228,7 +226,7 @@ class LoadingDialog extends StatelessWidget {
       content: Row(
         children: [
           CircularProgressIndicator(
-            color: Color(0xffFBB97C),
+            color: primaryColor,
             strokeWidth: 2,
           ),
           SizedBox(width: 16),

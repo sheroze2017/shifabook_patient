@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shifabook/Global.dart';
 
 import '../../controller/doctorData/doctorCategoryController.dart';
 
@@ -71,7 +72,7 @@ class OpeningHoursList extends StatelessWidget {
                 ),
               ],
               border: Border.all(
-                color: Color(0xffFBB97C), // Customize the border color here
+                color: primaryColor, // Customize the border color here
               ),
             ),
             child: ListTile(

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shifabook/views/login_screen.dart';
+import 'package:shifabook/Global.dart';
 
 import '../../views/home.dart';
 import '../userData/userInfo.dart';
@@ -28,8 +28,7 @@ class PatientController extends GetxController {
 
     String? access_token = await prefs.getString('access_Token');
     print(access_token);
-    String url =
-        'http://3.80.54.173:4005/api/v1/patients/create-patient-profile';
+    String url = '$baseUrl/patients/create-patient-profile';
     try {
       final body = {
         "blood_type": blood,

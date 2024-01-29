@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shifabook/model/doctorCategory.dart';
 import 'package:shifabook/views/DoctorInfo/scheduleList.dart';
 import 'package:shifabook/views/call/index.dart';
+import 'package:shifabook/Global.dart';
 
 import '../../controller/doctorData/doctorCategoryController.dart';
 import 'Availability.dart';
@@ -321,7 +322,7 @@ class DoctorsInfo extends StatelessWidget {
                           height: 20.h,
                           width: 18.h,
                           decoration: BoxDecoration(
-                              color: Color(0xffFBB97C),
+                              color: primaryColor,
                               borderRadius: BorderRadius.circular(20)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shifabook/Global.dart';
 
 import '../model/speciality.dart';
 
@@ -11,7 +12,7 @@ List<SpecialityModel> getSpeciality() {
   specialityModel.speciality = "Dermatologist";
   specialityModel.imgAssetPath = "assets/derma.png";
   specialityModel.id = 1;
-  specialityModel.backgroundColor = Color(0xffFBB97C);
+  specialityModel.backgroundColor = primaryColor;
   specialities.add(specialityModel);
 
   specialityModel = new SpecialityModel();

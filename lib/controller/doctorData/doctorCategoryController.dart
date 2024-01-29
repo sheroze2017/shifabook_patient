@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/Global.dart';
+
 import '../../model/doctorCategory.dart';
 
 class DoctorData extends GetxController {
@@ -10,6 +12,7 @@ class DoctorData extends GetxController {
   var img = [].obs;
   var avail = [].obs;
   var doctors = <DoctorUser>[].obs;
+  var doctorFetchLoader = false.obs;
   List<DateTime> inactive = [];
 
   List<dynamic> availability = [];
@@ -27,8 +30,14 @@ class DoctorData extends GetxController {
   }
 
   DoctorCategory? accountData;
+  void sortDoctorsByExperience() {
+    doctors
+        .sort((a, b) => b.yearsOfExperience!.compareTo(a.yearsOfExperience!));
+    print(doctors[0].yearsOfExperience);
+  }
 
   fetchDoctors(int id) async {
+    doctorFetchLoader.value = false;
     fullName.clear();
     img.clear();
     doctors.clear();
@@ -37,8 +46,7 @@ class DoctorData extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? access_token = await prefs.getString('access_Token');
 
-    final url = Uri.parse(
-        'http://3.80.54.173:4005/api/v1/home/category/$id?limit=10&offset=0');
+    final url = Uri.parse('$baseUrl//home/category/$id?limit=10&offset=0');
 
     try {
       final response = await http.get(
@@ -51,6 +59,7 @@ class DoctorData extends GetxController {
         final Map<String, dynamic> parsedData = json.decode(response.body);
         //  print(parsedData['data'][0]['doctor_availability']['availability']);
         accountData = await DoctorCategory.fromJson(jsonDecode(response.body));
+
         for (int i = 0; i < accountData!.data!.length; i++) {
           fullName.add(accountData!.data![i].fullName);
           img.add(accountData!.data![i].image);
@@ -78,6 +87,8 @@ class DoctorData extends GetxController {
       }
     } catch (error) {
       print('Error fetching and storing API data: $error');
+    } finally {
+      doctorFetchLoader.value = true;
     }
   }
 }

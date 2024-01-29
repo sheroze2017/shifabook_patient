@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shifabook/Global.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shifabook/views/Booking/paymentGateway.dart';
 
 class Createbooking extends GetxController {
   var isloading = false.obs;
   var bookings = <Booking>[].obs;
-  var isLoading2 = false.obs;
+  var isLoading2 = true.obs;
   Map<String, dynamic> bookingData = {};
   var isLoading3 = false.obs;
   RxString paymentHref = ''.obs;
@@ -28,7 +30,7 @@ class Createbooking extends GetxController {
         "doctor_id": doctorid,
         "landmark_id": landmarkid
       };
-      String url = 'http://3.80.54.173:4005/api/v1/bookings/create-booking';
+      String url = '$baseUrl/bookings/create-booking';
       final response = await http.post(Uri.parse(url),
           headers: {
             "Authorization": "Bearer $accesstoken",
@@ -48,7 +50,7 @@ class Createbooking extends GetxController {
           "booking_id": payid,
           "amount": onsitefees
         };
-        String url = 'http://3.80.54.173:4005/api/v1/bookings/make-payment';
+        String url = '$baseUrl/bookings/make-payment';
         final response2 = await http.post(Uri.parse(url),
             headers: {
               "Authorization": "Bearer $accesstoken",
@@ -105,7 +107,7 @@ class Createbooking extends GetxController {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? accesstoken = await prefs.getString('access_Token');
 
-      String url = 'http://3.80.54.173:4005/api/v1/bookings/patient-bookings';
+      String url = '$baseUrl/bookings/patient-bookings';
       final response = await http.get(
         Uri.parse(url),
         headers: {
@@ -137,7 +139,8 @@ class Createbooking extends GetxController {
     } catch (error) {
       // Handle error
     } finally {
-      isLoading2.value = false;
+      Future.delayed(Duration(seconds: 1))
+          .then((value) => isLoading2.value = false);
     }
   }
 
@@ -147,7 +150,7 @@ class Createbooking extends GetxController {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? accesstoken = await prefs.getString('access_Token');
 
-      String url = 'http://3.80.54.173:4005/api/v1/bookings/$id';
+      String url = '$baseUrl/bookings/$id';
       final response = await http.get(
         Uri.parse(url),
         headers: {
@@ -181,7 +184,7 @@ class Createbooking extends GetxController {
         "booking_id": payid,
         "amount": onsitefees
       };
-      String url = 'http://3.80.54.173:4005/api/v1/bookings/make-payment';
+      String url = '$baseUrl/bookings/make-payment';
       final response = await http.post(Uri.parse(url),
           headers: {
             "Authorization": "Bearer $accesstoken",

@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/Global.dart';
 import 'package:shifabook/controller/userData/userInfo.dart';
 import 'package:shifabook/data/data.dart';
 import 'package:shifabook/model/speciality.dart';
@@ -11,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shifabook/views/news_Screen.dart';
 import 'package:shifabook/views/widgets/appbar.dart';
+import 'package:shifabook/views/widgets/connectivity_internet.dart';
+import 'package:shifabook/views/widgets/shimmer.dart';
 
 import '../controller/doctorData/doctorCategoryController.dart';
 import '../model/doctorCategory.dart';
@@ -50,11 +54,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     specialities = getSpeciality();
-    readData().then((value) => Future.delayed(Duration(seconds: 1), () {
-          setState(() {
-            checkdata = false;
-          });
+    readData();
+    Future.delayed(Duration(seconds: 5)).then((value) => setState(() {
+          checkdata = true;
         }));
   }
 
@@ -137,6 +141,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
   ];
+  final ConnectivityController = Get.put(InternetConnectivityController());
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +162,8 @@ class _HomePageState extends State<HomePage> {
 
       return Future.value(true);
     }
+
+    final ConnectivityController = Get.put(InternetConnectivityController());
 
     return SafeArea(
         child: Scaffold(
@@ -180,12 +187,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            body: checkdata
-                ? Center(
-                    child: SpinKitFadingCube(
-                    color: Colors.indigo[900],
-                    size: 12.w,
-                  ))
+            body: !checkdata
+                ? HomeShimmer()
                 : GestureDetector(
                     onTap: () => SystemChrome.setEnabledSystemUIMode(
                         SystemUiMode.immersiveSticky),
@@ -203,7 +206,6 @@ class _HomePageState extends State<HomePage> {
                                 child: CarouselSlider(
                                   options: CarouselOptions(
                                     height: 20.h,
-
                                     // enlargeCenterPage: true,
                                     autoPlay: true,
                                     aspectRatio: 16 / 9,
@@ -306,13 +308,14 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder: (context, index) {
                                         return InkWell(
                                           onTap: () async {
-                                            await doctorController
+                                            doctorController
                                                 .fetchDoctors(index + 1);
                                             Get.to(CategoryDoctor(),
                                                 arguments: {
                                                   'category':
                                                       specialities[index]
-                                                          .speciality as String
+                                                          .speciality as String,
+                                                  'categoryNo': index + 1
                                                 });
                                           },
                                           child: Padding(
@@ -336,6 +339,19 @@ class _HomePageState extends State<HomePage> {
                               Divider(),
                               SizedBox(
                                 height: 2.h,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  "Quick Actions",
+                                  style: TextStyle(
+                                      color: Colors.black87.withOpacity(0.8),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 1.h,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10.0),
@@ -377,141 +393,31 @@ class _HomePageState extends State<HomePage> {
                                       List<String> qual = doctorStatic[index]
                                           ['doctor_user']['qualification'];
                                       return GestureDetector(
-                                        onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) => DoctorsInfo(doctorname,
-                                          //         img, doctor, doctorCat, exp, avail),
-                                          //   ),
-                                          // );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 10, bottom: 6),
-                                          child: Container(
-                                            height: 20.h,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffFFEEE0),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 14, vertical: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Image.asset(
-                                                  "assets/doctor_pic.png",
-                                                  height: 8.h,
-                                                ),
-                                                SizedBox(width: 3.w),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      doctorname,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xffFC9535),
-                                                        fontSize: 18.sp,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 0.5.h,
-                                                    ),
-                                                    Text(
-                                                      'General Physician',
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 0.5.h,
-                                                    ),
-                                                    Text(
-                                                      qual.join(' '),
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 0.5.h,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 1.h,
-                                                    ),
-                                                    Spacer(),
-                                                    Text(
-                                                      'Fees ${onlinefees}-${onsitefees}',
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 1.h,
-                                                    ),
-                                                    Text(
-                                                      'Experience ' +
-                                                          exp.toString() +
-                                                          ' Years',
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp),
-                                                    ),
-                                                    // Text(
-                                                    //   'Fees ${onlinefees}-${onsitefees}',
-                                                    //   style: TextStyle(fontSize: 16.sp),
-                                                    // )
-                                                  ],
-                                                ),
-                                                Spacer(),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 15,
-                                                          vertical: 9),
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xffFBB97C),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(13),
-                                                      ),
-                                                      child: const Text(
-                                                        "Details",
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    //  Spacer(),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
+                                          onTap: () {
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (context) => DoctorsInfo(doctorname,
+                                            //         img, doctor, doctorCat, exp, avail),
+                                            //   ),
+                                            // );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 6.0),
+                                            child: DoctorCard(
+                                                doctorname: doctorname,
+                                                doctorCat: 'Dermatologist',
+                                                doctorQualification:
+                                                    'MBBS FPSA',
+                                                //doctor: doctor,
+                                                onlinefees: onlinefees,
+                                                onsitefees: onsitefees,
+                                                exp: exp),
+                                          ));
                                     },
                                   ),
                                 ),
-
-                                // DoctorsTile(),
-                                // DoctorsTile(),
-                                // DoctorsTile(),
-                                // DoctorsTile(),
                               )
                             ],
                           ),
@@ -706,7 +612,7 @@ class SpecialistTile extends StatelessWidget {
 //               Container(
 //                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 9),
 //                 decoration: BoxDecoration(
-//                     color: Color(0xffFBB97C),
+//                     color: primaryColor,
 //                     borderRadius: BorderRadius.circular(13)),
 //                 child: Text(
 //                   "Call",

@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../controller/doctorData/doctorCategoryController.dart';
+import 'package:shifabook/Global.dart';
 
 class ScheduleScreen extends StatelessWidget {
   int weekd = DateTime.now().weekday - 1;
@@ -65,7 +66,7 @@ class ScheduleScreen extends StatelessWidget {
                   ),
                 ],
                 border: Border.all(
-                  color: Color(0xffFBB97C), // Customize the border color here
+                  color: primaryColor, // Customize the border color here
                 ),
               ),
               child: ListTile(
@@ -90,8 +91,8 @@ class ScheduleScreen extends StatelessWidget {
                 //     decoration: BoxDecoration(
                 //         border: Border.all(color: Colors.grey),
                 //         borderRadius: BorderRadius.circular(20),
-                //         color: Color(0xffFBB97C)),
-                //     //color: Color(0xffFBB97C),
+                //         color: primaryColor),
+                //     //color: primaryColor,
                 //     height: 5.h,
                 //     child: Center(
                 //       child: Text(

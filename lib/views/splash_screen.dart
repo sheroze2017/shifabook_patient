@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/Global.dart';
+
 import 'package:shifabook/views/home.dart';
 import 'package:shifabook/views/login_screen.dart';
 
@@ -129,7 +131,7 @@ accessFunc() async {
   String? refreshToken = prefs.getString('refresh_Token');
   String? mobile = prefs.getString('mobile');
   if (refreshToken != null && mobile != null) {
-    final url = Uri.parse('http://3.80.54.173:4005/api/v1/users/token');
+    final url = Uri.parse('$baseUrl/users/token');
 
     final body = jsonEncode({
       "email": "{{email}}",

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shifabook/Global.dart';
 
 import '../../model/userProfile.dart';
 
@@ -30,8 +31,7 @@ class UserProfileService extends GetxController {
 
     UserProfile accountData;
     print(access_token);
-    final url = Uri.parse(
-        'http://3.80.54.173:4005/api/v1/patients/get-patient-profile');
+    final url = Uri.parse('$baseUrl/patients/get-patient-profile');
 
     try {
       final response = await http.get(

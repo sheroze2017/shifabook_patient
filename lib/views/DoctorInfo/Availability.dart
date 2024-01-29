@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
+import 'package:shifabook/Global.dart';
 
 import '../../controller/Booking/createBooking.dart';
 import '../../controller/doctorData/doctorCategoryController.dart';
@@ -60,7 +61,7 @@ class _BookScreenState extends State<BookScreen> {
             height: 2.h,
           ),
           DatePicker(
-            selectionColor: Color(0xffFBB97C),
+            selectionColor: primaryColor,
             height: 12.h,
             daysCount: 14,
             inactiveDates: ddata.inactive,
@@ -167,8 +168,8 @@ class _BookScreenState extends State<BookScreen> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey),
                               borderRadius: BorderRadius.circular(20),
-                              color: Color(0xffFBB97C)),
-                          //color: Color(0xffFBB97C),
+                              color: primaryColor),
+                          //color: primaryColor,
                           height: 5.h,
                           child: Center(
                             child: Text(

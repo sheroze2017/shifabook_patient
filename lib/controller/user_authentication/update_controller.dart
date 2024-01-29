@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:shifabook/views/ProfileScreen.dart';
+import 'package:shifabook/Global.dart';
+
 import '../userData/userInfo.dart';
 
 class UpdatePofile extends GetxController {
@@ -30,8 +32,7 @@ class UpdatePofile extends GetxController {
         "height": height
       };
       print(access_token);
-      String url =
-          'http://3.80.54.173:4005/api/v1/patients/update-patient-profile';
+      String url = '$baseUrl/patients/update-patient-profile';
       final response = await http.put(Uri.parse(url),
           headers: {
             "Authorization": "Bearer $access_token",

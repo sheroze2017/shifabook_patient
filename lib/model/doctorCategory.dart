@@ -64,6 +64,9 @@ class Data {
 }
 
 class DoctorUser {
+  String? doctorName;
+  String? img;
+  String? doctorAvailability;
   int? id;
   List<String>? affilation;
   List<String>? qualification;
@@ -72,7 +75,10 @@ class DoctorUser {
   int? onlineConsultationFee;
 
   DoctorUser(
-      {this.id,
+      {this.doctorName,
+      this.img,
+      this.doctorAvailability,
+      this.id,
       this.affilation,
       this.qualification,
       this.yearsOfExperience,
@@ -80,7 +86,10 @@ class DoctorUser {
       this.onlineConsultationFee});
 
   DoctorUser.fromJson(Map<String, dynamic> json) {
+    doctorName = json['full_name'];
+    img = json['image'];
     id = json['id'];
+
     affilation = json['affilation'].cast<String>();
     qualification = json['qualification'].cast<String>();
     yearsOfExperience = json['years_of_experience'];
@@ -169,4 +178,12 @@ class Times {
     data['start_time'] = this.startTime;
     return data;
   }
+}
+
+List<DoctorUser> convertToDoctorUsers(List<Map<String, dynamic>> doctorStatic) {
+  List<DoctorUser> doctorUsers = [];
+  for (var doctorData in doctorStatic) {
+    doctorUsers.add(DoctorUser.fromJson(doctorData));
+  }
+  return doctorUsers;
 }
